@@ -1,0 +1,23 @@
+<div class="chat-container">
+    <div class="video-container">
+        <video id="me" controls autoplay #me></video>
+        <video id="device" controls autoplay #remote></video>
+    </div>
+
+    <div class="message-input">
+        <input id="messageinput" type="text" (keyup.enter)="sendTextMessage(messageinput.value)" #messageinput
+            placeholder="Type your message...">
+        <button (click)="sendTextMessage(messageinput.value)">Send</button>
+    </div>
+
+    <div class="message-list">
+        <div *ngFor="let msg of msg_list" class="message">
+            <p>{{ msg }}</p>
+        </div>
+    </div>
+
+    <div class="call-controls">
+        <button (click)="showRemote()" [disabled]="callActive">Connect</button>
+        <button (click)="hangup()" [disabled]="!callActive">Disconnect</button>
+    </div>
+</div>
