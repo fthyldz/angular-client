@@ -7,7 +7,7 @@
     <div class="message-input">
         <input id="messageinput" type="text" (keyup.enter)="sendTextMessage(messageinput.value)" #messageinput
             placeholder="Type your message...">
-        <button (click)="sendTextMessage(messageinput.value)">Send</button>
+        <button (click)="sendTextMessage(messageinput.value)">Gönder</button>
     </div>
 
     <div class="message-list">
@@ -17,7 +17,7 @@
     </div>
 
     <div class="call-controls">
-        <button (click)="showRemote()" [disabled]="callActive">Connect</button>
-        <button (click)="hangup()" [disabled]="!callActive">Disconnect</button>
+        <button (click)="showRemote()" [disabled]="callActive">Bağlan</button>
+        <button (click)="hangup()" [disabled]="!callActive">Bağlantıyı Kes</button>
     </div>
 </div>
