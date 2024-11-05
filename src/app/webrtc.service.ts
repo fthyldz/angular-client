@@ -52,6 +52,7 @@ export class WebRtcService implements OnDestroy {
 
         this.pc.onicecandidate = (event: any) => {
             if (event.candidate) {
+                console.log('Candidate bulundu -> ', event.candidate.candidate);
                 this.sendMessage.emit(JSON.stringify({ msg_type: "candidate", content: event.candidate.candidate, sdp_mid: event.candidate.sdpMid, sdp_mline_index: event.candidate.sdpMLineIndex, username_fragment: event.candidate.usernameFragment }));
             }
         }
