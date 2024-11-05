@@ -75,7 +75,7 @@ export class WebRtcService implements OnDestroy {
         }
     }
 
-    public showMe() {
+   /*  public showMe() {
         if (isPlatformBrowser(this._platform) && 'mediaDevices' in navigator) {
             navigator.mediaDevices.getUserMedia({ audio: true, video: true })
                 .then(stream => {
@@ -91,9 +91,30 @@ export class WebRtcService implements OnDestroy {
                     console.error("Media Device Hatası: ", error);
                 });
         }
-    }
+    } */
 
-    public showRemote() {
+        public async showMe(): Promise<void> {
+            if (isPlatformBrowser(this._platform) && 'mediaDevices' in navigator) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+                    this.localStream = stream;
+                    // Add each track to the peer connection
+                    stream.getTracks().forEach(track => {
+                        this.pc.addTrack(track, stream);
+                    });
+
+                    this.me.nativeElement.srcObject = stream;
+                } catch (error) {
+                    console.error("Media Device Error: ", error);
+                    throw error;
+                }
+            } else {
+                return Promise.reject("Not in browser or mediaDevices not available");
+            }
+        }
+
+
+    /* public showRemote() {
         try {
             this.showMe();
             this.pc.createOffer()
@@ -105,7 +126,24 @@ export class WebRtcService implements OnDestroy {
         } catch (error) {
             console.log(error);
         }
-    }
+    } */
+
+        public async showRemote() {
+            try {
+                await this.showMe(); // Wait for showMe() to complete
+        
+                const offer = await this.pc.createOffer();
+                console.log("SDP Offer:", offer.sdp); // Log the SDP offer
+                
+                await this.pc.setLocalDescription(offer);
+        
+                this.sendMessage.emit(JSON.stringify({ msg_type: "offer", content: this.pc.localDescription.sdp }));
+                this.callActive = true;
+            } catch (error) {
+                console.error("Error in showRemote: ", error);
+            }
+        }
+        
 
     public hangup() {
         this.pc.close();
