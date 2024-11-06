@@ -39,7 +39,7 @@ export class WebRtcService implements OnDestroy {
         try {
             this.pc = new RTCPeerConnection({
                 iceServers: [
-                    { url: 'stun:stun.l.google.com:19302' }
+                    { urls: "stun:stun.l.google.com:19302" }
                 ]
             });
         } catch (error) {
@@ -59,6 +59,8 @@ export class WebRtcService implements OnDestroy {
         }
 
         this.pc.ontrack = (event: any) => {
+            console.log('Track geldi -> ', event.streams[0]);
+            
             this.remote.nativeElement.srcObject = event.streams[0];
         }
 
