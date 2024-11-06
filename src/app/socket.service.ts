@@ -8,7 +8,7 @@ export class SocketService {
     public webrtcMessage = new EventEmitter<string>();
 
     constructor() {
-        this.socket = new WebSocket("ws://localhost:8080");
+        this.socket = new WebSocket("wss://socket.fthyldz.site");
         this.socket.onopen = (event) => {
             console.log("Connected to server");
             //setInterval(() => this.pingpong(), 30000);
