@@ -33,7 +33,7 @@ export class SocketComponent implements OnInit, AfterViewInit {
 
   async sendTextMessage(messageText: string) {
     await this.socketService
-      .sendMessage(JSON.stringify({ msg_type: "chat", content: messageText }))
+      .sendMessage(JSON.stringify({ msg_type: "Chat", content: messageText }))
       .then(() => this.msg_list.push(messageText))
       .then(() => this.messageinput.nativeElement.value = "")
       .catch(err => console.error(err));

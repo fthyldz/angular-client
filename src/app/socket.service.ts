@@ -8,7 +8,7 @@ export class SocketService {
     public webrtcMessage = new EventEmitter<string>();
 
     constructor() {
-        this.socket = new WebSocket("wss://socket.fthyldz.site");
+        this.socket = new WebSocket("ws://localhost:8080");
         this.socket.onopen = (event) => {
             console.log("Connected to server");
             //setInterval(() => this.pingpong(), 30000);
@@ -30,11 +30,11 @@ export class SocketService {
         this.socket.onmessage = (event) => {
             try {
                 const msg = JSON.parse(event.data);
-                if (msg.msg_type === "chat") {
+                if (msg.msg_type === "Chat") {
                     callback(msg_list, msg.content);
-                } else if (msg.msg_type === "pong") {
+                } else if (msg.msg_type === "Pong") {
                     console.log("Pong geldi");
-                } else if (msg.msg_type === "offer" || msg.msg_type === "answer" || msg.msg_type === "candidate") {
+                } else if (msg.msg_type === "Offer" || msg.msg_type === "Answer" || msg.msg_type === "IceCandidate") {
                     this.webrtcMessage.emit(event.data);
                 } else {
                     console.log("Unknown message type: ", msg);
